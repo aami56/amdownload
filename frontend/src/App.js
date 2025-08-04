@@ -330,24 +330,26 @@ function App() {
                       type="text"
                       placeholder="https://www.youtube.com/watch?v=..."
                       value={url}
-                      onChange={(e) => setUrl(e.target.value)}
+                      onChange={(e) => handleUrlChange(e.target.value)}
                       className="flex-1 bg-white bg-opacity-20 rounded-lg px-4 py-3 border border-white border-opacity-30 focus:border-blue-400 focus:outline-none"
                     />
                     <button
-                      onClick={handleSingleDownload}
-                      disabled={loading || !url.trim()}
+                      onClick={() => navigator.clipboard.readText().then(handleUrlChange)}
+                      disabled={loading}
                       className="bg-orange-500 hover:bg-orange-600 disabled:opacity-50 px-6 py-3 rounded-lg transition-all"
                     >
                       {loading ? 'Starting...' : 'Paste'}
                     </button>
-                    <button
-                      onClick={handleSingleDownload}
-                      disabled={loading || !url.trim()}
-                      className="bg-green-500 hover:bg-green-600 disabled:opacity-50 px-6 py-3 rounded-lg transition-all flex items-center space-x-2"
-                    >
-                      <span>⬇</span>
-                      <span>{loading ? 'Starting...' : 'Download'}</span>
-                    </button>
+                    {!settings.autoStart && (
+                      <button
+                        onClick={handleSingleDownload}
+                        disabled={loading || !url.trim()}
+                        className="bg-green-500 hover:bg-green-600 disabled:opacity-50 px-6 py-3 rounded-lg transition-all flex items-center space-x-2"
+                      >
+                        <span>⬇</span>
+                        <span>{loading ? 'Starting...' : 'Download'}</span>
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
