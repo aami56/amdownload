@@ -567,7 +567,10 @@ function App() {
                               Download
                             </a>
                           )}
-                          <button className="bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-lg transition-all text-sm">
+                          <button 
+                            onClick={() => scheduleDownload(download.id)}
+                            className="bg-blue-500 hover:bg-blue-600 px-3 py-2 rounded-lg transition-all text-sm"
+                          >
                             Schedule
                           </button>
                           <button
