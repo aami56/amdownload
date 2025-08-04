@@ -465,18 +465,29 @@ async def websocket_endpoint(websocket: WebSocket):
                 video_dict = v.dict()
                 # Convert datetime to string for JSON serialization
                 if 'created_at' in video_dict and video_dict['created_at']:
-                    video_dict['created_at'] = video_dict['created_at'].isoformat()
+                    if hasattr(video_dict['created_at'], 'isoformat'):
+                        video_dict['created_at'] = video_dict['created_at'].isoformat()
                 active_downloads_dict[k] = video_dict
                 
-            await websocket.send_text(json.dumps({
-                'type': 'stats_update',
-                'stats': download_stats,
-                'active_downloads': active_downloads_dict
-            }))
+            try:
+                await websocket.send_text(json.dumps({
+                    'type': 'stats_update',
+                    'stats': download_stats,
+                    'active_downloads': active_downloads_dict
+                }))
+            except Exception as send_error:
+                logging.error(f"WebSocket send error: {send_error}")
+                break
+                
             await asyncio.sleep(1)
             
     except WebSocketDisconnect:
-        websocket_connections.remove(websocket)
+        pass
+    except Exception as e:
+        logging.error(f"WebSocket error: {e}")
+    finally:
+        if websocket in websocket_connections:
+            websocket_connections.remove(websocket)
 
 # Include the router in the main app
 app.include_router(api_router)
