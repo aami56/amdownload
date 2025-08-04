@@ -108,6 +108,49 @@ function App() {
     }
   };
 
+  // Auto-download handler when URL is entered and auto-start is enabled
+  const handleUrlChange = async (newUrl) => {
+    setUrl(newUrl);
+    if (settings.autoStart && newUrl.trim() && (newUrl.includes('youtube.com') || newUrl.includes('youtu.be'))) {
+      // Small delay to ensure URL is set
+      setTimeout(async () => {
+        setLoading(true);
+        try {
+          const response = await axios.post(`${API}/download`, {
+            url: newUrl.trim(),
+            quality,
+            format,
+            filename_template: filenameRule
+          });
+          
+          setUrl('');
+          await loadDownloads();
+          await loadStats();
+        } catch (error) {
+          alert('Auto-download failed: ' + (error.response?.data?.detail || error.message));
+        } finally {
+          setLoading(false);
+        }
+      }, 500);
+    }
+  };
+
+  const scheduleDownload = async (downloadId) => {
+    const scheduleTime = prompt('Schedule download for (enter time in format HH:MM):');
+    if (scheduleTime) {
+      try {
+        await axios.post(`${API}/schedule`, {
+          video_id: downloadId,
+          schedule_time: scheduleTime
+        });
+        alert(`Download scheduled successfully for ${scheduleTime}`);
+        await loadDownloads();
+      } catch (error) {
+        alert('Error scheduling download: ' + (error.response?.data?.detail || error.message));
+      }
+    }
+  };
+
   const handleBulkDownload = async () => {
     const urls = bulkUrls.split('\n').filter(u => u.trim()).map(u => u.trim());
     if (urls.length === 0) return;
