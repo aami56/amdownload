@@ -21,7 +21,7 @@ API_BASE = f"{BACKEND_URL}/api"
 
 # Test URLs - Real YouTube content
 TEST_VIDEO_URL = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"  # Rick Astley - Never Gonna Give You Up
-TEST_PLAYLIST_URL = "https://www.youtube.com/playlist?list=PLrAXtmRdnEQy6nuLMt9H1mu_0fqoNjy9b"  # Small test playlist
+TEST_PLAYLIST_URL = "https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab"  # 3Blue1Brown Essence of Linear Algebra
 TEST_BULK_URLS = [
     "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
     "https://www.youtube.com/watch?v=L_jWHffIx5E"  # Smash Mouth - All Star
