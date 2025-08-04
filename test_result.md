@@ -173,11 +173,9 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus:
-    - "StreamVault UI with all tabs and features"
-    - "Real-time progress tracking with WebSocket"
+  current_focus: []
   stuck_tasks: []
-  test_all: true
+  test_all: false
   test_priority: "high_first"
 
 agent_communication:
