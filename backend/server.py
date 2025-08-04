@@ -307,24 +307,7 @@ async def start_download(request: DownloadRequest):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
-@api_router.post("/download/bulk")
-async def bulk_download(request: BulkDownloadRequest):
-    """Start bulk downloads"""
-    results = []
-    
-    for url in request.urls:
-        try:
-            download_req = DownloadRequest(
-                url=url,
-                quality=request.quality,
-                format=request.format
-            )
-            result = await start_download(download_req)
-            results.append(result)
-        except Exception as e:
-            results.append({"url": url, "error": str(e)})
-    
-    return {"results": results}
+
 
 @api_router.post("/download/playlist")
 async def download_playlist(request: PlaylistRequest):
