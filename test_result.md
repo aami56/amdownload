@@ -168,8 +168,6 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Video downloader backend with yt-dlp integration"
-    - "MongoDB models and data persistence"
     - "StreamVault UI with all tabs and features"
     - "Real-time progress tracking with WebSocket"
   stuck_tasks: []
