@@ -138,9 +138,9 @@ backend:
 frontend:
   - task: "StreamVault UI with all tabs and features"
     implemented: true
-    working: true
+    working: false
     file: "/app/frontend/src/App.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -150,6 +150,9 @@ frontend:
       - working: true
         agent: "testing"
         comment: "Comprehensive UI testing completed successfully! ✅ All major features working: StreamVault branding with purple gradient background and green logo, all 3 tabs (Single Video, Bulk Download, Playlist/Channel) functional with proper tab switching, statistics dashboard showing QUEUE/ACTIVE/DONE counters, quality/format dropdowns working (tested 720p, MP3), filename rule and proxy inputs functional, max downloads input working, sidebar statistics panel with TOTAL/ACTIVE/TOTAL SIZE/AVG SPEED, 6 toggle switches in Quick Settings all functional, 6 additional feature buttons present, Videos section with Clear History button, download management with Download/Schedule/Remove buttons on existing items, mobile responsiveness working perfectly. Found 2 existing download items showing the app is actively working. Minor: Some API calls not detected during single video test but bulk download API confirmed working."
+      - working: false
+        agent: "testing"
+        comment: "CRITICAL BUTTON ISSUES FOUND: ❌ Schedule buttons on download items have NO click handlers - they are just visual elements with no functionality. ❌ Auto-download toggle does NOT work - when enabled, downloads do not start automatically and Download button remains visible (should be hidden). ✅ All 6 Quick Settings toggles work correctly (visual state changes). ✅ Main download buttons work (Paste, Download, Bulk Download, Analyze Playlist). ✅ Clear History works after handling confirmation dialog. ✅ Remove buttons work. ✅ Tab navigation works. ✅ Form elements work (dropdowns, inputs). The user's complaint about buttons not working is VALID - Schedule functionality is completely missing and auto-download behavior is broken."
   
   - task: "Real-time progress tracking with WebSocket"
     implemented: true
