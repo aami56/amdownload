@@ -88,10 +88,9 @@ class PlaylistRequest(BaseModel):
     format: str = "mp4"
     max_videos: int = 50
 
-class BulkDownloadRequest(BaseModel):
-    urls: List[str]
-    quality: str = "best"
-    format: str = "mp4"
+class ScheduleRequest(BaseModel):
+    video_id: str
+    schedule_time: str  # HH:MM format
 
 def get_video_info(url: str) -> Dict[str, Any]:
     """Extract video information using yt-dlp"""
