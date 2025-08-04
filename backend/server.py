@@ -363,12 +363,21 @@ async def get_downloads():
     """Get all downloads from database"""
     try:
         downloads = await db.downloads.find().sort("created_at", -1).to_list(100)
-        # Merge with active downloads for real-time status
+        # Merge with active downloads for real-time status and handle datetime serialization
         for download in downloads:
             if download['id'] in active_downloads:
-                download.update(active_downloads[download['id']].dict())
+                active_data = active_downloads[download['id']].dict()
+                # Convert datetime to string for JSON serialization
+                if 'created_at' in active_data and active_data['created_at']:
+                    active_data['created_at'] = active_data['created_at'].isoformat()
+                download.update(active_data)
+            else:
+                # Convert datetime to string for JSON serialization
+                if 'created_at' in download and download['created_at']:
+                    download['created_at'] = download['created_at'].isoformat()
         return downloads
     except Exception as e:
+        logging.error(f"Error getting downloads: {e}")
         raise HTTPException(status_code=400, detail=str(e))
 
 @api_router.delete("/downloads/{video_id}")
