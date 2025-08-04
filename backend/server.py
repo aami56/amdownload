@@ -362,7 +362,7 @@ async def download_playlist(request: PlaylistRequest):
 async def get_downloads():
     """Get all downloads from database"""
     try:
-        downloads = await db.downloads.find().sort("created_at", -1).to_list(100)
+        downloads = await db.downloads.find({}, {"_id": 0}).sort("created_at", -1).to_list(100)
         # Process downloads for JSON serialization
         processed_downloads = []
         
