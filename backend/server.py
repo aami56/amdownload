@@ -443,10 +443,18 @@ async def websocket_endpoint(websocket: WebSocket):
     try:
         while True:
             # Send periodic updates
+            active_downloads_dict = {}
+            for k, v in active_downloads.items():
+                video_dict = v.dict()
+                # Convert datetime to string for JSON serialization
+                if 'created_at' in video_dict and video_dict['created_at']:
+                    video_dict['created_at'] = video_dict['created_at'].isoformat()
+                active_downloads_dict[k] = video_dict
+                
             await websocket.send_text(json.dumps({
                 'type': 'stats_update',
                 'stats': download_stats,
-                'active_downloads': {k: v.dict() for k, v in active_downloads.items()}
+                'active_downloads': active_downloads_dict
             }))
             await asyncio.sleep(1)
             
